@@ -4,6 +4,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Route
 import uvicorn
 from controller.llm_main import study_llm
+from whether_app_tool_calling.whether_app import whether
 
 def test_method(request):
     return JSONResponse({"message": "Hello World"})
@@ -12,6 +13,7 @@ def test_method(request):
 routes = [
     Route(path="/test", endpoint=test_method, methods=["GET"]),
     Route(path="/study", endpoint=study_llm, methods=["POST"]),
+    Route(path="/whether", endpoint=whether, methods=["POST"]),
 ]
 
 app = Starlette(routes=routes)
