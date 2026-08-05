@@ -3,26 +3,16 @@ import os
 from typing import Any
 
 import requests
+from dotenv import load_dotenv
 from groq import Groq
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-try:
-    from userdata import userdata
-except Exception:  # pragma: no cover - fallback for environments without userdata
-    userdata = None
 
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-def get_setting(key: str) -> str | None:
-    if userdata is not None and hasattr(userdata, "get"):
-        value = userdata.get(key)
-        if value:
-            return value
-    return os.getenv(key)
-
-
-GROQ_API_KEY = ""
-WEATHER_API_KEY = ""
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
 
 
